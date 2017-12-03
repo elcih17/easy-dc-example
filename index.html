@@ -24,11 +24,12 @@
     <div class="flex-row">
 
       <geo-jp
-        dimension='d.prefecture_code'
+        dimension='prefecture_code'
         reduce='d.total_population'
         :width=580
         :height=696
         :geo-scale=1400
+        :remove-pref-suffix=false
       ></geo-jp>
 
       <div class="flex-col">
