@@ -1,0 +1,23 @@
+<html lang="js">
+  <head>
+    <script src="https://plaidev.github.io/easy-dc-dash/dist/bundle.browser.js"></script>
+  </head>
+
+  <body>
+    <easy-dc-dataset
+      csv='./dataset.csv'
+    ></easy-dc-dataset>
+
+    <p>hello world</p>
+
+    <ordinal-bar
+      dimension="prefecture_code"
+      reduce="total_population"
+    ></ordinal-bar>
+
+  </body>
+
+  <script type="text/javascript">
+    EasyDC.run()
+  </script>
+</html>
