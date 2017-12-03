@@ -8,18 +8,33 @@
       csv='./data.csv'
     ></easy-dc-dataset>
 
-    <p>hello world</p>
+    <geo-jp
+      dimension='d.prefecture_code'
+      reduce='d.total_population'
+      :width=580
+      :height=696
+      :geo-scale=1400>
+    </geo-jp>
 
     <ordinal-bar
-      
       dimension="prefecture_name"
       reduce="male_population"
     ></ordinal-bar>
 
     <ordinal-bar
       dimension="prefecture_name"
-      reduce="male_population"
+      reduce="female_population"
     ></ordinal-bar>
+
+    <list-row
+      dimension="prefecture_name"
+      reduce="male_population"
+    ></list-row>
+
+    <list-row
+      dimension="prefecture_name"
+      reduce="female_population"
+    ></list-row>
 
   </body>
 
