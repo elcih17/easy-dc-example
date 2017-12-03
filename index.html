@@ -3,39 +3,60 @@
     <script src="https://plaidev.github.io/easy-dc-dash/dist/bundle.browser.js"></script>
   </head>
 
+  <style>
+    .flex-row {
+      display: flex;
+      flex-direction: row;
+    }
+    .flex-col {
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+
   <body>
     <easy-dc-dataset
       csv='./data.csv'
     ></easy-dc-dataset>
 
-    <geo-jp
-      dimension='d.prefecture_code'
-      reduce='d.total_population'
-      :width=580
-      :height=696
-      :geo-scale=1400>
-    </geo-jp>
+    <reset-all-button></reset-all-button>
 
-    <ordinal-bar
-      dimension="prefecture_name"
-      reduce="male_population"
-    ></ordinal-bar>
+    <div class="flex-row">
 
-    <ordinal-bar
-      dimension="prefecture_name"
-      reduce="female_population"
-    ></ordinal-bar>
+      <geo-jp
+        dimension='d.prefecture_code'
+        reduce='d.total_population'
+        :width=580
+        :height=696
+        :geo-scale=1400
+      ></geo-jp>
 
-    <list-row
-      dimension="prefecture_name"
-      reduce="male_population"
-    ></list-row>
+      <div class="flex-col">
 
-    <list-row
-      dimension="prefecture_name"
-      reduce="female_population"
-    ></list-row>
+        <div class="flex-row">
+          <ordinal-bar
+            dimension="prefecture_name"
+            reduce="male_population"
+          ></ordinal-bar>
 
+          <ordinal-bar
+            dimension="prefecture_name"
+            reduce="female_population"
+          ></ordinal-bar>
+        </div>
+
+        <div class="flex-row">
+          <list-row
+            dimension="prefecture_name"
+            reduce="male_population"
+          ></list-row>
+
+          <list-row
+            dimension="prefecture_name"
+            reduce="female_population"
+          ></list-row>
+        </div>
+    </div>
   </body>
 
   <script type="text/javascript">
