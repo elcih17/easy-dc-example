@@ -34,6 +34,14 @@
       <div class="flex-col">
 
         <div class="flex-row">
+          <number-display
+            title="total_population"
+            reduce="total_population"
+            unit-postfix="人"
+          ></number-display>
+        </div>
+
+        <div class="flex-row">
           <ordinal-bar
             dimension="prefecture_name"
             reduce="male_population"
@@ -55,6 +63,20 @@
             dimension="prefecture_name"
             reduce="female_population"
           ></list-row>
+        </div>
+
+        <div class="flex-row">
+          <data-table
+            dimension="d.prefecture_name"
+            columns="{code: d.prefecture_code, name: d.prefecture_name, total: d.total_population, male: d.male_population, female: d.female_population}"
+            sort-by="total_population"
+            order="descending"
+            width='auto'
+            :height=0
+            :use-table-paging='true'
+            :offset=0
+            :rows-per-page=5
+          ></data-table>
         </div>
     </div>
   </body>
