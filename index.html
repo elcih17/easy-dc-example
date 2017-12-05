@@ -1,4 +1,6 @@
+<!DOCTYPE html>
 <html lang="ja">
+
   <head>
     <script type="text/javascript" src="https://admin.karte.io/libs/easy-dc-dash/v0.3/bundle.browser.js"></script>
     <link rel="stylesheet" type="text/css" href="https://admin.karte.io/libs/easy-dc-dash/v0.3/bundle.css" />
@@ -42,8 +44,9 @@
   </style>
 
   <body>
+    <easy-dc-dataset csv="./data.csv" date-fields="day" date-format="%Y-%m-%dT%H:%M:%S.000Z"></easy-dc-dataset>
+
     <div class="krt-dc-container">
-      <easy-dc-dataset csv="./data.csv" date-fields="day" date-format="%Y-%m-%dT%H:%M:%S.000Z"></easy-dc-dataset>
 
       <h1>Plaid Engineer Blogの記事評価</h1>
 
