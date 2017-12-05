@@ -22,6 +22,7 @@
         justify-content: center;
         align-items: flex-start;
         flex-wrap: wrap;
+        padding-top: 50px;
       }
 
       .krt-dc-container .block {
@@ -53,8 +54,8 @@
       ></date-volume-chart>
 
       <h2 class="block">曜日別</h2>
-      <week-row dimension="d.day" reduce="d.pv" title="PV"></week-row>
-      <week-row dimension="d.day" reduce="d.total_time" title="VT"></week-row>
+      <week-row title="PV" dimension="d.day" reduce="d.pv"></week-row>
+      <week-row  title="VT" dimension="d.day" reduce="d.total_time"></week-row>
 
       <h2 class="block">PVとVT(注視時間)</h2>
 
@@ -106,20 +107,20 @@
     </div>
 
     <script>
-        EasyDC.Store.registerRepresentation('pageLink', function(v, d, k) {
-          return `<a href="http://tech.plaid.co.jp${v}">http://tech.plaid.co.jp${v}</a>`
-        })
-        EasyDC.Store.registerRepresentation('min', function(v, d, k) {
-          return Math.round(Number(v / 60))
-        })
-        EasyDC.Store.registerRepresentation('number', function(v, d, k) {
-          return (Math.round(Number(v * 100)) / 100).toLocaleString()
-        })
-        EasyDC.Store.registerLinkFormatter('linkFormatter', (v) => {
-          if (v.toLowerCase() === 'others') return null
-          return 'http://tech.plaid.co.jp' + v
-        })
-        EasyDC.run()
+      EasyDC.Store.registerRepresentation('pageLink', function(v, d, k) {
+        return `<a href="http://tech.plaid.co.jp${v}">http://tech.plaid.co.jp${v}</a>`
+      })
+      EasyDC.Store.registerRepresentation('min', function(v, d, k) {
+        return Math.round(Number(v / 60))
+      })
+      EasyDC.Store.registerRepresentation('number', function(v, d, k) {
+        return (Math.round(Number(v * 100)) / 100).toLocaleString()
+      })
+      EasyDC.Store.registerLinkFormatter('linkFormatter', (v) => {
+        if (v.toLowerCase() === 'others') return null
+        return 'http://tech.plaid.co.jp' + v
+      })
+      EasyDC.run()
     </script>
   </body>
 </html>
