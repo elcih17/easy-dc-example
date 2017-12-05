@@ -119,7 +119,7 @@
 
     <script type="text/javascript">
       EasyDC.Store.registerRepresentation('pageLink', function(v, d, k) {
-        return `<a href="http://tech.plaid.co.jp${v}">http://tech.plaid.co.jp${v}</a>`
+        return `<a target="_blank" href="http://tech.plaid.co.jp${v}">http://tech.plaid.co.jp${v}</a>`
       })
       EasyDC.Store.registerRepresentation('min', function(v, d, k) {
         return Math.round(Number(v / 60))
