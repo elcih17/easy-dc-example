@@ -7,7 +7,6 @@
   </head>
 
   <style>
-    @import url(https://admin.karte.io/libs/easy-dc-dash/v0.3/bundle.css);
     body {
       background-color: transparent;
     }
@@ -44,11 +43,19 @@
   </style>
 
   <body>
-    <easy-dc-dataset csv="./data.csv" date-fields="day" date-format="%Y-%m-%dT%H:%M:%S.000Z"></easy-dc-dataset>
+    <easy-dc-dataset
+      csv="./data.csv"
+      date-fields="day"
+      int-fields="pv"
+      float-fields="total_time"
+      date-format="%Y-%m-%dT%H:%M:%S.000Z"
+    ></easy-dc-dataset>
 
     <div class="krt-dc-container">
 
       <h1>Plaid Engineer Blogの記事評価</h1>
+
+      <reset-all-button>
 
       <h2 class="block">time range (2017-11-21 ~ 2017-12-05)</h2>
 
@@ -63,7 +70,6 @@
       <week-row  title="VT" dimension="d.day" reduce="d.total_time"></week-row>
 
       <h2 class="block">PVとVT(注視時間)</h2>
-
 
       <div class="flex-col">
         <div class="flex-row">
