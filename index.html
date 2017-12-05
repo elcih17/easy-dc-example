@@ -1,88 +1,125 @@
-<html lang="js">
+<html lang="ja">
   <head>
-    <script src="https://plaidev.github.io/easy-dc-dash/dist/bundle.browser.js"></script>
+    <script src="https://admin.karte.io/libs/easy-dc-dash/v0.3/bundle.browser.js"></script>
+    <style>
+      @import url(https://admin.karte.io/libs/easy-dc-dash/v0.3/bundle.css);
+      body {
+        background-color: transparent;
+      }
+
+      .flex-col {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .flex-row {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .krt-dc-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .krt-dc-container .block {
+        width: 100%;
+        padding-left: 5%;
+        padding-right: 5%;
+        margin: 20px 0;
+        text-align: center;
+      }
+
+      .krt-dc-container h2.block {
+        margin-top: 2rem;
+      }
+    </style>
   </head>
 
-  <style>
-    .flex-row {
-      display: flex;
-      flex-direction: row;
-    }
-    .flex-col {
-      display: flex;
-      flex-direction: column;
-    }
-  </style>
-
   <body>
-    <easy-dc-dataset
-      csv='./data.csv'
-    ></easy-dc-dataset>
+    <div class="krt-dc-container">
+      <easy-dc-dataset mode="content_vt" date-fields="day" date-format="%Y-%m-%dT%H:%M:%S.000Z"></easy-dc-dataset>
 
-    <reset-all-button></reset-all-button>
+      <h1>Plaid Engineer Blogの記事評価</h1>
 
-    <div class="flex-row">
+      <h2 class="block">time range (2017-11-01 ~ 2017-12-05)</h2>
 
-      <geo-jp
-        dimension='d.prefecture_code'
-        reduce='d.total_population'
-        :width=580
-        :height=696
-        :geo-scale=1400
-        :remove-pref-suffix=false
-      ></geo-jp>
+      <date-volume-chart
+        id="volume-chart"
+        dimension='d.day'
+        reduce='d.pv'
+      ></date-volume-chart>
+
+      <h2 class="block">曜日別</h2>
+      <week-row dimension="d.day" reduce="d.pv" title="PV"></week-row>
+      <week-row dimension="d.day" reduce="d.total_time" title="VT"></week-row>
+
+      <h2 class="block">PVとVT(注視時間)</h2>
+
 
       <div class="flex-col">
-
         <div class="flex-row">
-          <number-display
-            title="total_population"
-            reduce="total_population"
-            unit-postfix="人"
-          ></number-display>
+          <list-row dimension="d.path" reduce="d.pv" :cap="6" title="ページごと総UniqPV" link-formatter="linkFormatter"></list-row>
+          <list-row dimension="d.path" reduce="d.total_time" :cap="6" title="ページごと総VT" link-formatter="linkFormatter"></list-row>
         </div>
 
         <div class="flex-row">
-          <ordinal-bar
-            dimension="prefecture_name"
-            reduce="male_population"
-          ></ordinal-bar>
+          <multidim-pie
+            title="PVの割合"
+            layout="square-and-legend"
+            link-formatter="linkFormatter"
+            dimension="d.path"
+            reduce="d.pv"
+            :show-label=false
+          ></multidim-pie>
 
-          <ordinal-bar
-            dimension="prefecture_name"
-            reduce="female_population"
-          ></ordinal-bar>
-        </div>
-
-        <div class="flex-row">
-          <list-row
-            dimension="prefecture_name"
-            reduce="male_population"
-          ></list-row>
-
-          <list-row
-            dimension="prefecture_name"
-            reduce="female_population"
-          ></list-row>
-        </div>
-
-        <div class="flex-row">
-          <data-table
-            dimension="d.prefecture_name"
-            columns="{code: d.prefecture_code, name: d.prefecture_name, total: d.total_population, male: d.male_population, female: d.female_population}"
-            sort-by="total_population"
-            order="descending"
-            width='auto'
-            :use-table-paging='true'
-            :offset=0
-            :rows-per-page=5
-          ></data-table>
+          <multidim-pie
+            title="VTの割合"
+            layout="square-and-legend"
+            link-formatter="linkFormatter"
+            dimension="d.path"
+            reduce="d.total_time"
+            :show-label="false"
+          ></multidim-pie>
         </div>
       </div>
-    </div>
-  </body>
+      <h2 class="block">PVあたりのVT</h2>
 
-  <script type="text/javascript">
-    EasyDC.run()
-  </script>
+      <stack-and-rate layout="overlay-legend" dimension="d.day" reduce="[[d.pv, d.total_time - d.pv], {count: d.pv, value: d.total_time}]" scale="time.day" labels="UniqPV,VT,平均VT"></stack-and-rate>
+      <bubble
+        date-key='d.day'
+        dimension='ymd'
+        reduce="{PV: d.pv, VT: d.total_time, 'PV/VT': {count: d.pv, value: d.total_time}}"
+        x-axis-label="PV"
+        y-axis-label="VT"
+        radius-label="PV/VT"
+        radius-format='%'
+        :max-bubble-relative-size=0.1
+      ></bubble>
+
+      <h2 class="block">テーブル</h2>
+
+      <data-table dimension="d.path" columns="path,pv,total_time" labels="Path,UU,ViewingTime(min)" :representations="['pageLink','number', 'min']"></data-table>
+
+    </div>
+
+    <script>
+        EasyDC.Store.registerRepresentation('pageLink', function(v, d, k) {
+          return `<a href="http://tech.plaid.co.jp${v}">http://tech.plaid.co.jp${v}</a>`
+        })
+        EasyDC.Store.registerRepresentation('min', function(v, d, k) {
+          return Math.round(Number(v / 60))
+        })
+        EasyDC.Store.registerRepresentation('number', function(v, d, k) {
+          return (Math.round(Number(v * 100)) / 100).toLocaleString()
+        })
+        EasyDC.Store.registerLinkFormatter('linkFormatter', (v) => {
+          if (v.toLowerCase() === 'others') return null
+          return 'http://tech.plaid.co.jp' + v
+        })
+        EasyDC.run()
+    </script>
+  </body>
 </html>
